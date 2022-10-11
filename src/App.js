@@ -1,9 +1,9 @@
-import logo from "./logo.svg";
-import "./App.css";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Cards from "./components/Cards";
 import AddCart from "./components/AddCart";
+import "./App.css";
 
 function App() {
   return (

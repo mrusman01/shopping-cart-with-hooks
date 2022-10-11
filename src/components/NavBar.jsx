@@ -3,16 +3,23 @@ import React, { useContext, useEffect, useState } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Link } from "react-router-dom";
 import AddCart from "./AddCart";
-import { ShopCart } from "./ContextApi";
+import { ShopCart, CartState } from "./ContextApi";
+import { cartReducer } from "./Reducer";
+
 function NavBar() {
-  const { products, addCart, cart, removeBtn } = useContext(ShopCart);
   const [items, setItems] = useState(0);
+
+  const {
+    state: { cart },
+    dispatch,
+  } = CartState();
+
   useEffect(() => {
     if (cart.length >= 0) {
       // console.log(cart.length);
       setItems(cart.length);
     } else {
-      console.log("......");
+      // console.log("cart items is less then zero 0 >>>>>");
     }
   }, [cart]);
   return (

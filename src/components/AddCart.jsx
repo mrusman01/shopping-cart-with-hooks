@@ -7,24 +7,25 @@ import {
   Rating,
 } from "@mui/material";
 import React, { useState, useContext, useEffect } from "react";
-import CheckIcon from "@mui/icons-material/Check";
-import { ShopCart } from "./ContextApi";
+import { CartState, ShopCart } from "./ContextApi";
+import { cartReducer } from "./Reducer";
 
-const AddCart = () => {
-  const { products, addCart, cart, removeBtn } = useContext(ShopCart);
+const AddCart = (action) => {
+  const {
+    state: { cart },
+    dispatch,
+    // {  cart.filter((c) => c.id !== action.payload);}
+  } = CartState();
 
-  const [quantity, setQuantity] = useState(0);
+  const del = (action) => {
+    cart.filter((c) => c.id !== action.payload);
+    console.log(action);
+    dispatch({
+      type: "REMOVE_FROM_CART",
+      payload: action,
+    });
+  };
   const [item, setItem] = useState(0);
-
-  // const incre = () => {
-  //   setCount(count + 1);
-  // };
-  // const decre = () => {
-  //   setCount(count - 1);
-  // };
-
-  console.log(cart.length, "cart length ......>");
-
   useEffect(() => {
     if (cart.length >= 0) {
       console.log(cart.length);
@@ -36,7 +37,7 @@ const AddCart = () => {
 
   const [value, setValue] = React.useState(2);
   return (
-    <div>
+    <>
       <Box>
         <Container maxWidth="xl">
           <Grid container>
@@ -92,47 +93,31 @@ const AddCart = () => {
                       />
                     </Typography>
                   </Box>
-                  <Box>
-                    {/* {" "}
-                    <Button
-                      sx={{
-                        color: "blue ",
-                        fontSize: "1rem",
-                        fontWeight: "900",
-                      }}
-                      // onClick={decre}
-                    >
-                      -
-                    </Button>{" "} */}
-                    {1}
-                    {/* <Button
-                      sx={{
-                        color: "blue ",
-                        fontSize: "1rem",
-                        fontWeight: "900",
-                      }}
-                      // onClick={incre}
-                    >
-                      +
-                    </Button> */}
-                  </Box>
+                  {/* {1} */}
+                  <Box>{item.quantity}</Box>
                   <Button
                     variant="contained"
-                    onClick={() => removeBtn(item.id)}
+                    // onClick={() => {
+                    //   dispatch({
+                    //     type: "REMOVE_FROM_CART",
+                    //     payload: cart,
+                    //   });
+                    // }}
+                    onClick={() => del(item.id)}
                   >
                     Remove Item
                   </Button>
                   {/* <Button variant="contained">
-                    Check Out
-                    <CheckIcon />
-                  </Button> */}
+                  Check Out
+                  <CheckIcon />
+                </Button> */}
                 </Box>
               </Grid>
             ))}
           </Grid>
         </Container>
       </Box>
-    </div>
+    </>
   );
 };
 
